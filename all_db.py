@@ -2,8 +2,9 @@ import ast
 import os
 import sys
 
-from Config import *
 from core import logging
+
+from Config import *
 
 LOGS = logging.getLogger(__name__)
 

@@ -5,10 +5,10 @@ import time
 from logging.handlers import RotatingFileHandler
 
 from pyrogram import Client, filters, idle
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.types import Message
 
-from limit import *
 from Config import *
+from limit import *
 
 logging.basicConfig(
     level=logging.DEBUG,
