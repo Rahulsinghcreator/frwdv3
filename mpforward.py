@@ -111,7 +111,7 @@ async def forward_handler(bot: Client, message: Message):
             remaining_time = int(max_time) - time_since_last_message
             cooldown_message = f"Please wait {int(remaining_time / 60)} minutes & {int(remaining_time % 60)} seconds before posting another message to the channel.\n\n**Your post is added to queue & will be posted after {int(remaining_time / 60)} minutes & {int(remaining_time % 60)} seconds automatically.**"
             await message.reply_text(cooldown_message)
-            message_queue.update({message.id : [user_id, message.chat.id]})
+            message_queue.update({message.id: [user_id, message.chat.id]})
             await asyncio.sleep(remaining_time)
             for key, value in message_queue.items():
                 msg_id = key
