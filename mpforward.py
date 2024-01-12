@@ -134,7 +134,6 @@ async def forward_handler(bot: Client, message: Message):
     user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
 
 
-
 async def start_bot():
     await bot.start()
     await bot.get_me()
