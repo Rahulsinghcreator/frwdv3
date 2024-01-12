@@ -1,0 +1,16 @@
+{
+    "name":"mp forward",
+    "description":"A Simple Telegram Bot Which Help You To Join And Forward Your Message",
+    "repository":"https://github.com/TG-LEGEND",
+    "buildpacks": [
+        {
+            "url": "heroku/python"
+        }
+    ],
+    "env": {
+        "EXPIRY_DATE":{
+            "description": "Write your Expiry Date Prize 30 dollar every 3 month",
+            "value":""
+        }
+    }
+}
