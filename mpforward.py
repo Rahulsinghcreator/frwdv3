@@ -75,7 +75,7 @@ async def forwardoj(bot: Client, message: Message):
     if is_id_limit(user_id):
         max_posts_per_day = count_value[user_id]
     else:
-        max_posts_per_day = max_posts
+	    max_posts_per_day = max_posts
 	if message.text == "/sub":
         if message.reply_to_message:
 		    if user_message_count.get(reply_id, 0) >= max_posts_per_day:
