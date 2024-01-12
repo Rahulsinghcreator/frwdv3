@@ -89,7 +89,10 @@ async def forward_handler(bot: Client, message: Message):
                 )
             remaining_posts_message = f"• Remaining Post :{remaining_posts} out of {max_posts_per_day} posts today\n\n• Total Posted = {user_message_count.get(user_id, 0)}"
             return await message.reply_text(remaining_posts_message)
-    if message.text.startswith(".") or message.text.startswith("/"):
+    textss = (
+        message.text.startswith(".") or message.text.startswith("/") if message.text else None
+    )
+    if textss:
         return
     if user_id in last_message_times:
         if str(user_id) in str(allowed_user_id):
