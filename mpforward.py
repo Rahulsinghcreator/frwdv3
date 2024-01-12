@@ -1,11 +1,12 @@
 import logging
+import random
 import time
 from pyrogram import Client, filters, idle
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ParseMode
 import asyncio
 from logging.handlers import RotatingFileHandler
-
+import random  # Import random module
 
 api_id = 3748059
 api_hash = "f8c9df448f3ba20a900bc2ffc8dae9d5"
@@ -30,7 +31,7 @@ logging.basicConfig(
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGS = logging.getLogger()
 
-#=========== Client ===========#
+# =========== Client =========== #
 
 bot = Client(
     "client",
@@ -44,56 +45,36 @@ user_message_count = {}
 allowed_user_id = allow_id.split(" ")
 
 @bot.on_message(filters.command(["start"]) & ~filters.bot)
-async def start(bot: Client, message: Message):
-	await message.reply("Click the button below to join the #Official Marketplace", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Join channel", url=f"{mp_link}")]]))
-	
-"""	
-@bot.on_message(filters.command(["deletelast"]) & ~filters.bot)
-async def start(bot: Client, message: Message):
-	if str(message.from_user.id) not in str(allowed_user_id):
-		return
-	contain_id = message.text.split(" ")
-	if len(contain_id) == 2:
-	    lol_message = int(contain_id[1])
-	    await bot.delete_messages(channel_id, lol_message)
-	else:
-	    msg = await bot.send_message(channel_id, " Deleting Last Message ")
-	    current_id = msg.id
-	    await msg.delete()
-	    last_message = current_id - 1
-	    try:
-	        await bot.delete_messages(channel_id, last_message)
-	    except Exception as e:
-	    	print(e)
-"""
-	 
+async def start_handler(bot: Client, message: Message):
+    await message.reply("Click the button below to join the #Official Marketplace", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Join channel", url=f"{mp_link}")]]))
+
 @bot.on_message(filters.chat(chat_id) & ~filters.bot)
-async def forwardoj(bot: Client, message: Message):
+async def forward_handler(bot: Client, message: Message):
     user_id = message.from_user.id
     reply_id = message.reply_to_message.from_user.id
     count_value = total_limit_id()
     if is_id_limit(user_id):
         max_posts_per_day = count_value[user_id]
     else:
-	    max_posts_per_day = max_posts
-	if message.text == "/sub":
+        max_posts_per_day = max_posts
+    if message.text == "/sub":
         if message.reply_to_message:
-		    if user_message_count.get(reply_id, 0) >= max_posts_per_day:
-		        remaining_posts = 0
-		    else:
-		        remaining_posts = max_posts_per_day - user_message_count.get(reply_id, 0)
-		    remaining_posts_message = f"• Remaining Post :{remaining_posts} out of {max_posts_per_day} posts today\n\n• Total Posted = {user_message_count.get(reply_id, 0)}"
-		    return await message.reply_text(remaining_posts_message)
-		else:
-		    if user_message_count.get(user_id, 0) >= max_posts_per_day:
-		        remaining_posts = 0
-		    else:
-		        remaining_posts = int(max_posts_per_day) - user_message_count.get(user_id, 0)
-		    remaining_posts_message = f"• Remaining Post :{remaining_posts} out of {max_posts_per_day} posts today\n\n• Total Posted = {user_message_count.get(user_id, 0)}"
-		    return await message.reply_text(remaining_posts_message)
-	if message.text.startswith('.') or message.text.startswith('/'):
+            if user_message_count.get(reply_id, 0) >= max_posts_per_day:
+                remaining_posts = 0
+            else:
+                remaining_posts = max_posts_per_day - user_message_count.get(reply_id, 0)
+            remaining_posts_message = f"• Remaining Post :{remaining_posts} out of {max_posts_per_day} posts today\n\n• Total Posted = {user_message_count.get(reply_id, 0)}"
+            return await message.reply_text(remaining_posts_message)
+        else:
+            if user_message_count.get(user_id, 0) >= max_posts_per_day:
+                remaining_posts = 0
+            else:
+                remaining_posts = int(max_posts_per_day) - user_message_count.get(user_id, 0)
+            remaining_posts_message = f"• Remaining Post :{remaining_posts} out of {max_posts_per_day} posts today\n\n• Total Posted = {user_message_count.get(user_id, 0)}"
+            return await message.reply_text(remaining_posts_message)
+    if message.text.startswith('.') or message.text.startswith('/'):
         return
-	if user_id in last_message_times:
+    if user_id in last_message_times:
         if str(user_id) in str(allowed_user_id):
             last_message_times[user_id] = time.time()
         else:
@@ -110,41 +91,20 @@ async def forwardoj(bot: Client, message: Message):
             last_message_times[user_id] = time.time()
             for id in channel_id:
                 await bot.forward_messages(id, message.chat.id, message.message_id)
-                asyncio.sleep(random.randint(1, 4))
-            """
-            if message.text:
-                for id in channel_id:
-                    await bot.send_message(id, f"{message.text.html}\n\nPosted by @{message.from_user.username}")
-                    asyncio.sleep(random.randint(1, 4))
-            elif message.media:
-                file_id = await bot.download_media(message)
-                for id in channel_id:
-                    await bot.send_photo(channel_id, file_id, caption=f"{message.caption.html}\n\nPosted by @{message.from_user.username}")
-                os.remove(file_id)
-            else:
-                return print("This is document")"""
+                await asyncio.sleep(random.randint(1, 4))
             user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
-            return 
+            return
     last_message_times[user_id] = time.time()
     for id in channel_id:
         await bot.forward_messages(id, message.chat.id, message.message_id)
-        asyncio.sleep(random.randint(1, 4))
-    """
-	if message.text:
-        await bot.send_message(channel_id, f"{message.text.html}\n\nPosted by @{message.from_user.username}")
-	elif message.media:
-        file_id = await bot.download_media(message)
-        await bot.send_photo(channel_id, file_id, caption=f"{message.caption.html}\n\nPosted by @{message.from_user.username}")
-        os.remove(file_id)
-	else:
-		 print("This is document")"""
-	user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
+        await asyncio.sleep(random.randint(1, 4))
+    user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
 
 async def start_bot():
     await bot.start()
     lol = await bot.get_me()
     await bot.send_photo(chat_id, "https://telegra.ph/file/2707a66c92ba3c2e40cee.jpg", f"#START\n\nVersion:- α • 1.1\n\nYour Market Place Bot Has Been Started Successfully")
     await idle()
-	
+
 loop = asyncio.get_event_loop()
 loop.run_until_complete(start_bot())
