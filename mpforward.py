@@ -1,8 +1,9 @@
 import asyncio
 import logging
+import time
 import random  # Import random module
 from logging.handlers import RotatingFileHandler
-
+from pyrogram import errors as pyro_errors
 from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 
