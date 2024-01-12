@@ -3,8 +3,10 @@ import logging
 import random  # Import random module
 import time
 from logging.handlers import RotatingFileHandler
+
+from pyrogram import Client
 from pyrogram import errors as pyro_errors
-from pyrogram import Client, filters, idle
+from pyrogram import filters, idle
 from pyrogram.types import Message
 
 from Config import *
