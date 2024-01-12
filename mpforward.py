@@ -73,7 +73,7 @@ async def forward_handler(bot: Client, message: Message):
             if user_message_count.get(reply_id, 0) >= int(max_posts_per_day):
                 remaining_posts = 0
             else:
-                remaining_posts = max_posts_per_day - user_message_count.get(
+                remaining_posts = int(max_posts_per_day) - user_message_count.get(
                     reply_id, 0
                 )
             remaining_posts_message = f"• Remaining Post :{remaining_posts} out of {max_posts_per_day} posts today\n\n• Total Posted = {user_message_count.get(reply_id, 0)}"
