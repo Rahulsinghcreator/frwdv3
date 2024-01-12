@@ -134,7 +134,7 @@ async def forward_handler(bot: Client, message: Message):
                     except Exception as e:
                         await message.reply_text(f"Error : {e}")
                     user_message_count[usrid] = user_message_count.get(usrid, 0) + 1
-                    await asyncio.sleep(random.randint(1,4))
+                    await asyncio.sleep(random.randint(1, 4))
                 await asyncio.sleep(600)
             message_queue.clear()
             return
