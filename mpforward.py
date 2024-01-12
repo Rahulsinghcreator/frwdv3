@@ -1,12 +1,11 @@
-import logging
-import random
-import time
-from pyrogram import Client, filters, idle
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.enums import ParseMode
 import asyncio
-from logging.handlers import RotatingFileHandler
+import logging
 import random  # Import random module
+import time
+from logging.handlers import RotatingFileHandler
+
+from pyrogram import Client, filters, idle
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 api_id = 3748059
 api_hash = "f8c9df448f3ba20a900bc2ffc8dae9d5"
@@ -44,9 +43,16 @@ last_message_times = {}
 user_message_count = {}
 allowed_user_id = allow_id.split(" ")
 
+
 @bot.on_message(filters.command(["start"]) & ~filters.bot)
 async def start_handler(bot: Client, message: Message):
-    await message.reply("Click the button below to join the #Official Marketplace", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Join channel", url=f"{mp_link}")]]))
+    await message.reply(
+        "Click the button below to join the #Official Marketplace",
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Join channel", url=f"{mp_link}")]]
+        ),
+    )
+
 
 @bot.on_message(filters.chat(chat_id) & ~filters.bot)
 async def forward_handler(bot: Client, message: Message):
@@ -62,24 +68,30 @@ async def forward_handler(bot: Client, message: Message):
             if user_message_count.get(reply_id, 0) >= max_posts_per_day:
                 remaining_posts = 0
             else:
-                remaining_posts = max_posts_per_day - user_message_count.get(reply_id, 0)
+                remaining_posts = max_posts_per_day - user_message_count.get(
+                    reply_id, 0
+                )
             remaining_posts_message = f"• Remaining Post :{remaining_posts} out of {max_posts_per_day} posts today\n\n• Total Posted = {user_message_count.get(reply_id, 0)}"
             return await message.reply_text(remaining_posts_message)
         else:
             if user_message_count.get(user_id, 0) >= max_posts_per_day:
                 remaining_posts = 0
             else:
-                remaining_posts = int(max_posts_per_day) - user_message_count.get(user_id, 0)
+                remaining_posts = int(max_posts_per_day) - user_message_count.get(
+                    user_id, 0
+                )
             remaining_posts_message = f"• Remaining Post :{remaining_posts} out of {max_posts_per_day} posts today\n\n• Total Posted = {user_message_count.get(user_id, 0)}"
             return await message.reply_text(remaining_posts_message)
-    if message.text.startswith('.') or message.text.startswith('/'):
+    if message.text.startswith(".") or message.text.startswith("/"):
         return
     if user_id in last_message_times:
         if str(user_id) in str(allowed_user_id):
             last_message_times[user_id] = time.time()
         else:
             if user_message_count.get(user_id, 0) >= max_posts_per_day:
-                return await message.reply_text("Today's Post Limit Exceeded !!!\n\nYou've now no posts left in your daily sub - wait 12 hours to refresh the post limit.")
+                return await message.reply_text(
+                    "Today's Post Limit Exceeded !!!\n\nYou've now no posts left in your daily sub - wait 12 hours to refresh the post limit."
+                )
         time_since_last_message = time.time() - last_message_times[user_id]
         if time_since_last_message < int(max_time):
             remaining_time = int(max_time) - time_since_last_message
@@ -87,7 +99,9 @@ async def forward_handler(bot: Client, message: Message):
             await message.reply_text(cooldown_message)
             await asyncio.sleep(remaining_time)
             if user_message_count.get(user_id, 0) >= int(max_posts_per_day):
-                return await message.reply_text("Today's Post Limit Exceeded !!!\n\nYou've now no posts left in your daily sub - wait 12 hours to refresh the post limit.")
+                return await message.reply_text(
+                    "Today's Post Limit Exceeded !!!\n\nYou've now no posts left in your daily sub - wait 12 hours to refresh the post limit."
+                )
             last_message_times[user_id] = time.time()
             for id in channel_id:
                 await bot.forward_messages(id, message.chat.id, message.message_id)
@@ -100,11 +114,17 @@ async def forward_handler(bot: Client, message: Message):
         await asyncio.sleep(random.randint(1, 4))
     user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
 
+
 async def start_bot():
     await bot.start()
-    lol = await bot.get_me()
-    await bot.send_photo(chat_id, "https://telegra.ph/file/2707a66c92ba3c2e40cee.jpg", f"#START\n\nVersion:- α • 1.1\n\nYour Market Place Bot Has Been Started Successfully")
+    await bot.get_me()
+    await bot.send_photo(
+        chat_id,
+        "https://telegra.ph/file/2707a66c92ba3c2e40cee.jpg",
+        f"#START\n\nVersion:- α • 1.1\n\nYour Market Place Bot Has Been Started Successfully",
+    )
     await idle()
+
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(start_bot())
