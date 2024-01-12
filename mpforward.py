@@ -127,7 +127,7 @@ async def forward_handler(bot: Client, message: Message):
         except pyro_errors.FloodWait as e:
             await message.reply_text(f"Flood Wait Error : {e}")
         except Exception as e:
-            await message.reply_text(f"Error : {e}")
+            await message.reply_text(f"Error in {id} : {e}")
         await asyncio.sleep(random.randint(1, 4))
     user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
 
