@@ -106,7 +106,7 @@ async def forward_handler(bot: Client, message: Message):
                 return await message.reply_text(
                     "Today's Post Limit Exceeded !!!\n\nYou've now no posts left in your daily sub - wait 12 hours to refresh the post limit."
                 )
-        time_since_last_message = time.time() - last_message_times[user_id]
+        time_since_last_message = time.time() - last_message_times[message.chat.id]
         if time_since_last_message < int(max_time):
             remaining_time = int(max_time) - time_since_last_message
             cooldown_message = f"Please wait {int(remaining_time / 60)} minutes & {int(remaining_time % 60)} seconds before posting another message to the channel.\n\n**Your post is added to queue & will be posted after {int(remaining_time / 60)} minutes & {int(remaining_time % 60)} seconds automatically.**"
@@ -135,7 +135,7 @@ async def forward_handler(bot: Client, message: Message):
                         await message.reply_text(f"Error : {e}")
                     user_message_count[usrid] = user_message_count.get(usrid, 0) + 1
                     await asyncio.sleep(random.randint(600))
-    last_message_times[user_id] = time.time()
+    last_message_times[message.chat.id] = time.time()
     for id in channel_id:
         try:
             await bot.forward_messages(id, message.chat.id, message.id)
