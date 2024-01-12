@@ -3,11 +3,11 @@ import os
 api_id = 3748059
 api_hash = "f8c9df448f3ba20a900bc2ffc8dae9d5"
 chat_id = -1002137560330
-channel_id = ["@DiveMarketPlace"]
+channel_id = ["@Havenmax", "@vipxshop", -1001610151919, "@flamemp", "@DragonsRealm", -1001678501895, -1001683654620,"@imaginationmp", "@furymp", -1001884446560, "@heavenmp", -1001950150014, "@milkymp", "@zeusMarketplace", "@somethingbasic", "@massmp", "@synmarket", "@crownmarketplace", "@zebmp", "@hoodmarketplace", "@Neomps", -1001899905282, -1001921053697, -1001164557116, "@ogsmp", -1001835605370, -1001885432633, "@crowmarketplace", "@nordicmp", -1001506286713, -1001966244490, "@catmps", -1002086694702]
 allow_id = "6162272468"
-max_posts = 4
+max_posts = 2
 max_time = 600
-session_string = "BQCwmCUAHFk47MqjDKFvwesq4LEA4sJfyYZv-jK1-oA9eJkAsQyVzjOfbQ1vjTcaGY9ECwbSzKw3I0gkhqnJqsvPZ-dYeXdW-1YuAoBSie-hC1vabp_NG08U9sMGhRIJP6A8eFzljPHLjKC2PrQ37ZFrJUmqpJPx68_EsEoTjL1IjOzjgpjYdGC4J40J3EyrXlk0tri3CMGMWxqyHtCHmBOpPsWTEpASQI8X2FLmIrQPxXSof-huvvmmsUpdrbvnsYoexQOk_9WDads40qmv3fYvpFxjOygJMsUZGbk3py-6GXd33Y-pI4Ul7sWbC2jnR3vgAVmeRD66JWFb30Wa4RSIXXb2YQAAAAGKNpGvAA"
+session_string = "BACwmCUAozEVvQmNq2P1fv5YD6RspwvNuyX7QMPzonA68ElO0Bth8sj6XOH8TOYgfqqxVgLSfnkFxoi_x06_QzVoUh434QpSYGSzgwDjsG_uR7erTpvWW11yFqxEfbd6OMMAoKHvoZpg2CriYxTDzbqRDUCM7YZzOUQlIHwrx65f_gXUUHgAV_bo_XsmLFedcoPZISH6rAy_UakmG2pxpMrN7Ar6C_dtPZeC1lFo5PuR-Y1n6nbhFEPC_BEt2GXalhjL92B6jnXVBEsqtvNp1fhfVvWNn0kSXslA72tISMWpAUsTLPqg322KA0ZLVk80KMJ5k5HTA6YNaxvjDrSxkCxtrsgvrgAAAAFvTNDUAA"
 REDIS_URI = None
 REDISHOST = None
 MONGO_URI = os.environ.get("MONGO_URI", None)
