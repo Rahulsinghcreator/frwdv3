@@ -36,6 +36,7 @@ bot = Client(
 
 last_message_times = {}
 user_message_count = {}
+message_queue = {}
 allowed_user_id = allow_id.split(" ")
 
 
@@ -65,6 +66,7 @@ async def forward_handler(bot: Client, message: Message):
     reply_id = (
         message.reply_to_message.from_user.id if message.reply_to_message else None
     )
+    print(reply_id)
     count_value = total_limit_id()
     if is_id_limit(user_id):
         max_posts_per_day = count_value[user_id]
@@ -109,22 +111,30 @@ async def forward_handler(bot: Client, message: Message):
             remaining_time = int(max_time) - time_since_last_message
             cooldown_message = f"Please wait {int(remaining_time / 60)} minutes & {int(remaining_time % 60)} seconds before posting another message to the channel.\n\n**Your post is added to queue & will be posted after {int(remaining_time / 60)} minutes & {int(remaining_time % 60)} seconds automatically.**"
             await message.reply_text(cooldown_message)
+            message_queue.update({message.id : [user_id, message.chat.id]})
             await asyncio.sleep(remaining_time)
-            if user_message_count.get(user_id, 0) >= int(max_posts_per_day):
-                return await message.reply_text(
-                    "Today's Post Limit Exceeded !!!\n\nYou've now no posts left in your daily sub - wait 12 hours to refresh the post limit."
-                )
-            last_message_times[user_id] = time.time()
-            for id in channel_id:
-                try:
-                    await bot.forward_messages(id, message.chat.id, message.id)
-                except pyro_errors.FloodWait as e:
-                    await message.reply_text(f"Flood Wait Error : {e}")
-                except Exception as e:
-                    await message.reply_text(f"Error : {e}")
-                await asyncio.sleep(random.randint(1, 4))
-            user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
-            return
+            for key, value in message_queue.items():
+                msg_id = key
+                usrid = value[0]
+                cht_id = value[1]
+                if is_id_limit(user_id):
+                    qu_max_posts_per_day = count_value[usrid]
+                else:
+                    qu_max_posts_per_day = max_posts
+                if user_message_count.get(usrid, 0) >= int(qu_max_posts_per_day):
+                    await message.reply_text(
+                        "Today's Post Limit Exceeded !!!\n\nYou've now no posts left in your daily sub - wait 12 hours to refresh the post limit."
+                    )
+                    continue
+                for id in channel_id:
+                    try:
+                        await bot.forward_messages(id, cht_id, msg_id)
+                    except pyro_errors.FloodWait as e:
+                        await message.reply_text(f"Flood Wait Error : {e}")
+                    except Exception as e:
+                        await message.reply_text(f"Error : {e}")
+                    user_message_count[usrid] = user_message_count.get(usrid, 0) + 1
+                    await asyncio.sleep(random.randint(600))
     last_message_times[user_id] = time.time()
     for id in channel_id:
         try:
