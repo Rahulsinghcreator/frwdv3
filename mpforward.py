@@ -57,14 +57,14 @@ async def start_handler(bot: Client, message: Message):
 @bot.on_message(filters.chat(chat_id) & ~filters.bot)
 async def forward_handler(bot: Client, message: Message):
     user_id = message.from_user.id
-    reply_id = message.reply_to_message.from_user.id
+    reply_id = message.reply_to_message.from_user.id if message.reply_to_message else None
     count_value = total_limit_id()
     if is_id_limit(user_id):
         max_posts_per_day = count_value[user_id]
     else:
         max_posts_per_day = max_posts
     if message.text == "/sub":
-        if message.reply_to_message:
+        if reply_id:
             if user_message_count.get(reply_id, 0) >= max_posts_per_day:
                 remaining_posts = 0
             else:
