@@ -66,7 +66,6 @@ async def forward_handler(bot: Client, message: Message):
     reply_id = (
         message.reply_to_message.from_user.id if message.reply_to_message else None
     )
-    print(reply_id)
     count_value = total_limit_id()
     if is_id_limit(user_id):
         max_posts_per_day = count_value[user_id]
@@ -98,7 +97,7 @@ async def forward_handler(bot: Client, message: Message):
     )
     if textss:
         return
-    if user_id in last_message_times:
+    if message.chat.id in last_message_times:
         if str(user_id) in str(allowed_user_id):
             last_message_times[user_id] = time.time()
         else:
