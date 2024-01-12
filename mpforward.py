@@ -51,7 +51,7 @@ async def start_handler(bot: Client, message: Message):
     )
     if reply_id:
         add_limit(reply_id, count)
-        await message.reply(
+        return await message.reply(
             f"Successfully set limit\n**Chat id**: {reply_id}\n**Limit**: {count}"
         )
     await message.reply("Reply to him message and use command \n`/limit <value>")
@@ -70,7 +70,7 @@ async def forward_handler(bot: Client, message: Message):
         max_posts_per_day = max_posts
     if message.text == "/sub":
         if reply_id:
-            if user_message_count.get(reply_id, 0) >= max_posts_per_day:
+            if user_message_count.get(reply_id, 0) >= int(max_posts_per_day):
                 remaining_posts = 0
             else:
                 remaining_posts = max_posts_per_day - user_message_count.get(
@@ -79,7 +79,7 @@ async def forward_handler(bot: Client, message: Message):
             remaining_posts_message = f"• Remaining Post :{remaining_posts} out of {max_posts_per_day} posts today\n\n• Total Posted = {user_message_count.get(reply_id, 0)}"
             return await message.reply_text(remaining_posts_message)
         else:
-            if user_message_count.get(user_id, 0) >= max_posts_per_day:
+            if user_message_count.get(user_id, 0) >= int(max_posts_per_day):
                 remaining_posts = 0
             else:
                 remaining_posts = int(max_posts_per_day) - user_message_count.get(
