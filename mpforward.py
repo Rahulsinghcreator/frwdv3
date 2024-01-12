@@ -10,7 +10,7 @@ from logging.handlers import RotatingFileHandler
 api_id = 3748059
 api_hash = "f8c9df448f3ba20a900bc2ffc8dae9d5"
 chat_id = -1002137560330
-channel_id = [@DiveMarketPlace]
+channel_id = ["@DiveMarketPlace"]
 mp_link = "https://t.me/+oVqB_bTso2VjNmU9"
 allow_id = "6162272468"
 max_posts = 4
