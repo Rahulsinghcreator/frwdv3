@@ -1,3 +1,5 @@
+import os
+
 api_id = 3748059
 api_hash = "f8c9df448f3ba20a900bc2ffc8dae9d5"
 chat_id = -1002137560330
