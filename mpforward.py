@@ -1,12 +1,9 @@
 import asyncio
 import logging
 import random  # Import random module
-import time
 from logging.handlers import RotatingFileHandler
 
-from pyrogram import Client
-from pyrogram import errors as pyro_errors
-from pyrogram import filters, idle
+from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 
 from Config import *
@@ -139,6 +136,8 @@ async def forward_handler(bot: Client, message: Message):
     user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
 
 """
+
+
 async def start_bot():
     await bot.start()
     await bot.get_me()
