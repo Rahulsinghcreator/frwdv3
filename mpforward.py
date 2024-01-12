@@ -51,8 +51,11 @@ async def start_handler(bot: Client, message: Message):
     )
     if reply_id:
         add_limit(reply_id, count)
-        await message.reply(f"Successfully set limit\n**Chat id**: {reply_id}\n**Limit**: {count}")
+        await message.reply(
+            f"Successfully set limit\n**Chat id**: {reply_id}\n**Limit**: {count}"
+        )
     await message.reply("Reply to him message and use command \n`/limit <value>")
+
 
 @bot.on_message(filters.chat(chat_id) & ~filters.bot)
 async def forward_handler(bot: Client, message: Message):
