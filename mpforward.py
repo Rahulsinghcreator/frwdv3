@@ -59,7 +59,7 @@ async def start_handler(bot: Client, message: Message):
     await message.reply("Reply to him message and use command \n`/limit <value>")
 
 
-@bot.on_message(filters.chat(chat_id) & ~filters.bot)
+@bot.on_message(filters.chat(chat_id) & ~filters.bot & ~filters.service)
 async def forward_handler(bot: Client, message: Message):
     user_id = message.from_user.id
     reply_id = (
