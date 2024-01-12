@@ -42,6 +42,18 @@ async def start_handler(bot: Client, message: Message):
     await message.reply("I am alive")
 
 
+@bot.on_message(filters.command(["limit"]) & ~filters.bot & filters.me)
+async def start_handler(bot: Client, message: Message):
+    tmsg = message.text.split(" ")
+    count = tmsg[1]
+    reply_id = (
+        message.reply_to_message.from_user.id if message.reply_to_message else None
+    )
+    if reply_id:
+        add_limit(reply_id, count)
+        await message.reply(f"Successfully set limit\n**Chat id**: {reply_id}\n**Limit**: {count}")
+    await message.reply("Reply to him message and use command \n`/limit <value>")
+
 @bot.on_message(filters.chat(chat_id) & ~filters.bot)
 async def forward_handler(bot: Client, message: Message):
     user_id = message.from_user.id
