@@ -100,7 +100,6 @@ async def forward_handler(bot: Client, message: Message):
             return
     last_message_times[user_id] = time.time()
     for id in channel_id:
-        print(message)
         await bot.forward_messages(id, message.chat.id, message.id)
         await asyncio.sleep(random.randint(1, 4))
     user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
