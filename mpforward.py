@@ -58,8 +58,6 @@ async def start_handler(bot: Client, message: Message):
 
 @bot.on_message(filters.chat(chat_id) & ~filters.bot & ~filters.service)
 async def forward_handler(bot: Client, message: Message):
-    LOGS.info("Hellonsnnsnsns")
-    """
     user_id = message.from_user.id
     reply_id = (
         message.reply_to_message.from_user.id if message.reply_to_message else None
@@ -135,15 +133,13 @@ async def forward_handler(bot: Client, message: Message):
         await asyncio.sleep(random.randint(1, 4))
     user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
 
-"""
 
 
 async def start_bot():
     await bot.start()
     await bot.get_me()
-    await bot.send_photo(
+    await bot.send_message(
         chat_id,
-        "https://telegra.ph/file/2707a66c92ba3c2e40cee.jpg",
         f"#START\n\nVersion:- α • 1.1\n\nYour Market Place Bot Has Been Started Successfully",
     )
     await idle()
