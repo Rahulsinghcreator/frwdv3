@@ -58,7 +58,7 @@ async def start_handler(bot: Client, message: Message):
 
 @bot.on_message(filters.chat(chat_id) & ~filters.bot & ~filters.service)
 async def forward_handler(bot: Client, message: Message):
-    print("Hello")
+    LOGS.info("Hellonsnnsnsns")
     """
     user_id = message.from_user.id
     reply_id = (
