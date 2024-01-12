@@ -3,7 +3,7 @@ import logging
 import random  # Import random module
 import time
 from logging.handlers import RotatingFileHandler
-
+from pyrogram import errors as pyro_errors
 from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 
@@ -109,13 +109,23 @@ async def forward_handler(bot: Client, message: Message):
                 )
             last_message_times[user_id] = time.time()
             for id in channel_id:
-                await bot.forward_messages(id, message.chat.id, message.id)
+                try:
+                    await bot.forward_messages(id, message.chat.id, message.id)
+                except pyro_errors.FloodWait as e:
+                    await message.reply_text(f"Flood Wait Error : {e}")
+                except Exception as e:
+                    await message.reply_text(f"Error : {e}")
                 await asyncio.sleep(random.randint(1, 4))
             user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
             return
     last_message_times[user_id] = time.time()
     for id in channel_id:
-        await bot.forward_messages(id, message.chat.id, message.id)
+        try:
+            await bot.forward_messages(id, message.chat.id, message.id)
+        except pyro_errors.FloodWait as e:
+            await message.reply_text(f"Flood Wait Error : {e}")
+        except Exception as e:
+            await message.reply_text(f"Error : {e}")
         await asyncio.sleep(random.randint(1, 4))
     user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
 
