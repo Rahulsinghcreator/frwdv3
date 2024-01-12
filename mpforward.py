@@ -135,6 +135,8 @@ async def forward_handler(bot: Client, message: Message):
                         await message.reply_text(f"Error : {e}")
                     user_message_count[usrid] = user_message_count.get(usrid, 0) + 1
                     await asyncio.sleep(random.randint(600))
+            message_queue.clear()
+            return
     last_message_times[message.chat.id] = time.time()
     for id in channel_id:
         try:
