@@ -9,7 +9,7 @@ channel_id = [
     "@vipxshop",
     -1001610151919,
     "@flamemp",
-    "@DragonsRealm", #-1001678501895,
+    "@DragonsRealm",  # -1001678501895,
     -1001683654620,
     "@imaginationmp",
     "@furymp",
